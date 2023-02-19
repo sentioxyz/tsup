@@ -96,7 +96,7 @@ export async function getProductionDeps(
 
   const deps = Array.from(
     new Set([
-      ...Object.keys(data.dependencies || {}),
+      // ...Object.keys(data.dependencies || {}),
       ...Object.keys(data.peerDependencies || {}),
     ])
   )
