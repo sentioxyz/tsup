@@ -119,6 +119,21 @@ export async function runEsbuild(
 
   await pluginContainer.buildStarted()
   const esbuildPlugins: Array<EsbuildPlugin | false | undefined> = [
+    {
+      name: 'sentio-processor',
+      setup(build) {
+        // Make sure src/**/*.ts exists in sourcemap.
+        build.onLoad({ filter: /\/src\/(.+\/)*.+\.ts$/ }, async (args) => {
+          const content = await fs.promises.readFile(args.path, 'utf8')
+          return {
+            loader: 'ts',
+            contents:
+              content +
+              ';import("node:process").then((p) => p.stdout.write(""));',
+          }
+        })
+      },
+    },
     format === 'cjs' && options.removeNodeProtocol && nodeProtocolPlugin(),
     {
       name: 'modify-options',
