@@ -149,6 +149,7 @@ export async function runEsbuild(
         build.onLoad({ filter: /\/src\/processor\.ts$/ }, async (args) => {
           const content = await fs.promises.readFile(args.path, 'utf8')
           return {
+            loader: 'ts',
             contents: content + ';console.log();',
           }
         })
