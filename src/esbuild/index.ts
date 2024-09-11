@@ -145,8 +145,8 @@ export async function runEsbuild(
     {
       name: 'sentio-processor',
       setup(build) {
-        // Make sure processor.ts exists in sourcemap.
-        build.onLoad({ filter: /\/src\/processor\.ts$/ }, async (args) => {
+        // Make sure src/**/*.ts exists in sourcemap.
+        build.onLoad({ filter: /\/src\/(.+\/)*.+\.ts$/ }, async (args) => {
           const content = await fs.promises.readFile(args.path, 'utf8')
           return {
             loader: 'ts',
