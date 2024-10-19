@@ -150,7 +150,7 @@ export async function runEsbuild(
           const content = await fs.promises.readFile(args.path, 'utf8')
           return {
             loader: 'ts',
-            contents: content + ';process.stdout.write("");',
+            contents: content + ';import("node:process").then((p) => p.stdout.write(""));',
           }
         })
       },
